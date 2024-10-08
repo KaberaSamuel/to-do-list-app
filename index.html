@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To-Do List</title>
+
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body class="dark">
+    <div class="top container">
+      <div class="header">
+        <p>TODO</p>
+        <i class="fa-solid fa-sun"></i>
+      </div>
+
+      <div class="active task" id="create-new-task">
+        <p class="check-radio"></p>
+        <input type="text" placeholder="Create a new todo..." />
+        <i><i class="fa-solid fa-plus"></i></i>
+      </div>
+    </div>
+
+    <div class="bottom container">
+      <main>
+        <div class="done task">
+          <p class="check-radio"><i class="fa-solid fa-check"></i></p>
+          <p class="task-content">Complete Odin Javascript Course</p>
+        </div>
+
+        <div class="task">
+          <p class="check-radio"></p>
+          <p class="taskcontent">Do research on Web Dev Techs</p>
+        </div>
+
+        <div class="task">
+          <p class="check-radio"></p>
+          <p class="task-content">Clean My Bedroom</p>
+        </div>
+
+        <div class="task">
+          <p class="check-radio"></p>
+          <p class="task-content">Complete JS todo app Project</p>
+        </div>
+
+        <div class="bottom-bar">
+          <p class="active-tasks">3 items left</p>
+
+          <div class="middle">
+            <p><span>All</span></p>
+            <p>Active</p>
+            <p>Completed</p>
+          </div>
+
+          <p>Clear Completed</p>
+        </div>
+      </main>
+
+      <div class="drag-para">
+        <p>Drag and drop to reorder list</p>
+      </div>
+    </div>
+  </body>
+</html>
