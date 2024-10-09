@@ -1,12 +1,13 @@
 const body = document.querySelector("body");
 const main = document.querySelector("main");
+const tasks = document.querySelector(".tasks");
+const remainingTasks = document.querySelector(".active-tasks");
 
 function mainStartingState() {
-  main.innerHTML = `<p>No todo items left</p>`;
   main.classList.add("cleared");
 }
 
-const toggleMode = (function () {
+const toggleDisplyMode = (function () {
   const toggleModebtn = document.querySelector("#toggle-mode");
   const sunIconHtml = `<i class="fa-solid fa-sun"></i>`;
   const moonIconHtml = `<i class="fa-solid fa-moon"></i>`;
@@ -23,30 +24,41 @@ const toggleMode = (function () {
 })();
 
 const toggleTaskState = (function () {
-  const checkRadios = Array.from(document.querySelectorAll(".check-radio"));
-  const iconContent = `<i class="fa-solid fa-check"></i>`;
+  const updateTasksState = function () {
+    const checkRadios = Array.from(document.querySelectorAll(".check-radio"));
+    const iconContent = `<i class="fa-solid fa-check"></i>`;
 
-  checkRadios.forEach(function (element) {
-    element.addEventListener("click", (event) => {
+    const eventHandler = function (event) {
       const parent = event.target.parentNode;
       parent.classList.toggle("done");
-      element.innerHTML = parent.classList.contains("done") ? iconContent : "";
+      event.currentTarget.innerHTML = parent.classList.contains("done")
+        ? iconContent
+        : "";
+    };
+
+    checkRadios.forEach(function (element) {
+      // element.removeEventListener("click", eventHandler);
+      element.addEventListener("click", eventHandler);
     });
-  });
+  };
+
+  return {
+    updateTasksState,
+  };
 })();
 
-const deletetasks = (function () {
+const deletetasks = function () {
   function deleteElement(element) {
     Array.from(element.children).forEach((child) => {
-      child.style.cssText = "animation: delete-animation 0.8s ease both";
+      child.style.cssText = "animation: delete-animation 0.3s ease-in both";
     });
 
     window.setTimeout(() => {
-      main.removeChild(element);
-      if (main.childElementCount === 1) {
+      tasks.removeChild(element);
+      if (tasks.childElementCount === 0) {
         mainStartingState();
       }
-    }, 600);
+    }, 300);
   }
 
   const deleteIcons = Array.from(document.querySelectorAll(".close"));
@@ -63,4 +75,47 @@ const deletetasks = (function () {
       deleteElement(task);
     });
   });
+};
+
+const newTasks = (function () {
+  function initialize(content) {
+    if (main.classList.contains("cleared")) {
+      main.classList.remove("cleared");
+    }
+
+    const taskPara = document.createElement("div");
+    taskPara.classList.add("task");
+
+    const radioPara = document.createElement("p");
+    radioPara.classList.add("check-radio");
+
+    const contentPara = document.createElement("p");
+    contentPara.classList.add("task-content");
+    contentPara.textContent = content;
+
+    const closePara = document.createElement("p");
+    closePara.classList.add("close");
+    closePara.innerHTML = `<i class="fa-solid fa-xmark">`;
+
+    taskPara.appendChild(radioPara);
+    taskPara.appendChild(contentPara);
+    taskPara.appendChild(closePara);
+
+    tasks.appendChild(taskPara);
+    main.classList.remove("cleared");
+
+    toggleTaskState.updateTasksState();
+    deletetasks();
+  }
+
+  const input = document.querySelector("input");
+  input.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+      initialize(input.value);
+      input.value = "";
+    }
+  });
 })();
+
+toggleTaskState.updateTasksState();
+deletetasks();

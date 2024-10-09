@@ -16,7 +16,7 @@
 
     <script src="main.js" defer></script>
   </head>
-  <body class="dark one two three">
+  <body class="dark">
     <div class="top container">
       <div class="header">
         <p>TODO</p>
@@ -31,30 +31,34 @@
     </div>
 
     <div class="bottom container">
-      <main>
-        <div class="done task">
-          <p class="check-radio"><i class="fa-solid fa-check"></i></p>
-          <p class="task-content">Complete Odin Javascript Course</p>
-          <p class="close"><i class="fa-solid fa-xmark"></i></p>
+      <main class="clearedd">
+        <div class="tasks">
+          <div class="done task">
+            <p class="check-radio"><i class="fa-solid fa-check"></i></p>
+            <p class="task-content">Complete Odin Javascript Course</p>
+            <p class="close"><i class="fa-solid fa-xmark"></i></p>
+          </div>
+
+          <div class="task">
+            <p class="check-radio"></p>
+            <p class="task-content">Do research on Web Dev Techs</p>
+            <p class="close"><i class="fa-solid fa-xmark"></i></p>
+          </div>
+
+          <div class="task">
+            <p class="check-radio"></p>
+            <p class="task-content">Clean My Bedroom</p>
+            <p class="close"><i class="fa-solid fa-xmark"></i></p>
+          </div>
+
+          <div class="task">
+            <p class="check-radio"></p>
+            <p class="task-content">Complete JS todo app Project</p>
+            <p class="close"><i class="fa-solid fa-xmark"></i></p>
+          </div>
         </div>
 
-        <div class="task">
-          <p class="check-radio"></p>
-          <p class="task-content">Do research on Web Dev Techs</p>
-          <p class="close"><i class="fa-solid fa-xmark"></i></p>
-        </div>
-
-        <div class="task">
-          <p class="check-radio"></p>
-          <p class="task-content">Clean My Bedroom</p>
-          <p class="close"><i class="fa-solid fa-xmark"></i></p>
-        </div>
-
-        <div class="task">
-          <p class="check-radio"></p>
-          <p class="task-content">Complete JS todo app Project</p>
-          <p class="close"><i class="fa-solid fa-xmark"></i></p>
-        </div>
+        <div class="overlay-div">No todo items Left</div>
 
         <div class="bottom-bar">
           <p class="active-tasks">3 items left</p>

@@ -6,7 +6,7 @@
 
 :root {
   --lightDark: rgb(35, 35, 45);
-  --lightWhite: rgb(210, 210, 210);
+  --lightWhite: rgb(220, 220, 220);
 }
 
 body {
@@ -50,7 +50,8 @@ body.dark .top {
 
 .top > div,
 main {
-  width: 50vw;
+  /* width: 50vw; */
+  width: 500px;
 }
 
 .top .header {
@@ -69,6 +70,10 @@ main {
   border: none;
   height: 60px;
   padding: 7px 20px;
+}
+
+.top #create-new-task .check-radio {
+  pointer-events: none;
 }
 
 .top #create-new-task input {
@@ -95,7 +100,7 @@ body.dark .top #create-new-task i {
 }
 
 .bottom {
-  height: 60vh;
+  min-height: 60vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,21 +113,35 @@ body.dark .bottom {
 
 main {
   border-radius: 5px;
-  overflow: hidden;
   transform: translateY(-30px);
   box-shadow: 2px 3px 20px black;
+  position: relative;
+  height: fit-content;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 main.cleared {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30vh;
+  height: 40vh;
+}
+
+main .overlay-div {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  inset: 0;
+  text-align: center;
+  align-content: center;
   background-color: var(--lightWhite);
 }
 
-body.dark main.cleared {
+body.dark .overlay-div {
   background-color: var(--lightDark);
+}
+
+main.cleared .overlay-div {
+  opacity: 1;
+  z-index: 1;
 }
 
 main .bottom-bar {
@@ -221,6 +240,6 @@ body.dark .bottom-bar {
   }
 
   to {
-    transform: translateX(50vw);
+    transform: translateX(30vw);
   }
 }
