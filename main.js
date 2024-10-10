@@ -7,6 +7,38 @@ function mainStartingState() {
   main.classList.add("cleared");
 }
 
+function deletetasks() {
+  function deleteElement(element) {
+    Array.from(element.children).forEach((child) => {});
+    element.style.cssText = "animation: delete-animation 0.3s ease-in both";
+    element.addEventListener("animationend", () => {
+      // manually resolving bug from animation end event firing many times, as some elements didn't belong to tasks anymore to be removed
+      if (tasks.contains(element)) {
+        tasks.removeChild(element);
+      }
+
+      if (tasks.childElementCount === 0) {
+        mainStartingState();
+      }
+    });
+  }
+
+  const deleteIcons = Array.from(document.querySelectorAll(".close"));
+  deleteIcons.forEach(function (icon) {
+    icon.addEventListener("click", (event) => {
+      deleteElement(event.target.parentNode.parentNode);
+    });
+  });
+
+  const clearAll = document.querySelector(".clear-all");
+  clearAll.addEventListener("click", () => {
+    const completedTasks = Array.from(document.querySelectorAll(".task.done"));
+    completedTasks.forEach((task) => {
+      deleteElement(task);
+    });
+  });
+}
+
 const toggleDisplyMode = (function () {
   const toggleModebtn = document.querySelector("#toggle-mode");
   const sunIconHtml = `<i class="fa-solid fa-sun"></i>`;
@@ -37,8 +69,10 @@ const toggleTaskState = (function () {
     };
 
     checkRadios.forEach(function (element) {
-      // element.removeEventListener("click", eventHandler);
-      element.addEventListener("click", eventHandler);
+      if (!element.hasEventListener) {
+        element.addEventListener("click", eventHandler);
+        element.hasEventListener = true;
+      }
     });
   };
 
@@ -46,36 +80,6 @@ const toggleTaskState = (function () {
     updateTasksState,
   };
 })();
-
-const deletetasks = function () {
-  function deleteElement(element) {
-    Array.from(element.children).forEach((child) => {
-      child.style.cssText = "animation: delete-animation 0.3s ease-in both";
-    });
-
-    window.setTimeout(() => {
-      tasks.removeChild(element);
-      if (tasks.childElementCount === 0) {
-        mainStartingState();
-      }
-    }, 300);
-  }
-
-  const deleteIcons = Array.from(document.querySelectorAll(".close"));
-  deleteIcons.forEach(function (icon) {
-    icon.addEventListener("click", (event) => {
-      deleteElement(event.target.parentNode.parentNode);
-    });
-  });
-
-  const clearAll = document.querySelector(".clear-all");
-  clearAll.addEventListener("click", () => {
-    const completedTasks = Array.from(document.querySelectorAll(".task.done"));
-    completedTasks.forEach((task) => {
-      deleteElement(task);
-    });
-  });
-};
 
 const newTasks = (function () {
   function initialize(content) {
