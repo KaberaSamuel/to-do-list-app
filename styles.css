@@ -160,8 +160,8 @@ main .bottom-bar .middle {
   gap: 10px;
 }
 
-main .bottom-bar .middle span {
-  color: rgb(101, 101, 255);
+main .bottom-bar .middle #all {
+  color: rgb(98, 98, 255);
 }
 
 /* general */
@@ -227,6 +227,16 @@ body.dark .check-radio {
 
 .task:hover .close {
   opacity: 1;
+}
+
+body .middle p:hover,
+body .clear-all:hover {
+  color: black;
+}
+
+body.dark .middle p:hover,
+body.dark .clear-all:hover {
+  color: white;
 }
 
 body.dark .task,

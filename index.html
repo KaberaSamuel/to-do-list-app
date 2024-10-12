@@ -26,14 +26,14 @@
       <div class="active task" id="create-new-task">
         <p class="check-radio"></p>
         <input type="text" placeholder="Create a new todo..." />
-        <i><i class="fa-solid fa-plus"></i></i>
+        <i class="fa-solid fa-plus"></i>
       </div>
     </div>
 
     <div class="bottom container">
       <main>
         <div class="tasks">
-          <div class="done task">
+          <div class="task done">
             <p class="check-radio"><i class="fa-solid fa-check"></i></p>
             <p class="task-content">Complete Odin Javascript Course</p>
             <p class="close"><i class="fa-solid fa-xmark"></i></p>
@@ -64,9 +64,9 @@
           <p class="active-tasks">3 items left</p>
 
           <div class="middle">
-            <p><span>All</span></p>
-            <p>Active</p>
-            <p>Completed</p>
+            <p id="all">All</p>
+            <p id="active">Active</p>
+            <p id="completed">Completed</p>
           </div>
 
           <p class="clear-all">Clear Completed</p>
