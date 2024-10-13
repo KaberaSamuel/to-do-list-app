@@ -7,6 +7,7 @@
 :root {
   --lightDark: rgb(35, 35, 45);
   --lightWhite: rgb(220, 220, 220);
+  --shadow: 2px 5px 20px black;
 }
 
 body {
@@ -16,10 +17,14 @@ body {
   letter-spacing: 0.03rem;
   color: var(--lightDark);
   overflow-x: hidden;
+  position: relative;
+  overflow-y: scroll;
+  background-color: var(--lightWhite);
 }
 
 body.dark {
   color: white;
+  background-color: var(--lightDark);
 }
 
 .top {
@@ -49,12 +54,21 @@ body.dark .top {
   background-size: cover;
 }
 
-.top > div,
-main {
-  width: 500px;
+.container {
+  position: absolute;
+  top: 12vh;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: clamp(400px, 60%, 1000px);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  padding-bottom: 40px;
 }
 
-.top .header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -62,21 +76,18 @@ main {
   font-family: cursive;
   font-size: 1.5rem;
   letter-spacing: 10px;
-  margin-bottom: 20px;
+  color: var(--lightWhite);
 }
 
-.top #create-new-task {
+#create-new-task {
   border-radius: 5px;
   border: none;
   height: 60px;
-  padding: 7px 20px;
+  padding: 10px 20px;
+  justify-content: space-between;
 }
 
-.top #create-new-task .check-radio {
-  pointer-events: none;
-}
-
-.top #create-new-task input {
+#create-new-task input {
   height: 100%;
   flex: 1 1 auto;
   padding-left: 10px;
@@ -84,45 +95,33 @@ main {
   border: none;
   background-color: var(--lightWhite);
   color: gray;
+  min-width: 100px;
 }
 
-body.dark .top #create-new-task input {
+body.dark #create-new-task input {
   background-color: var(--lightDark);
 }
 
-.top #create-new-task i {
+#create-new-task i {
   font-size: 1.2rem;
   color: black;
+  text-align: right;
 }
 
-body.dark .top #create-new-task i {
+body.dark #create-new-task i {
   color: var(--lightWhite);
-}
-
-.bottom {
-  min-height: 60vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--lightWhite);
-}
-
-body.dark .bottom {
-  background-color: rgb(25, 25, 30);
 }
 
 main {
   border-radius: 5px;
-  transform: translateY(-30px);
-  box-shadow: 2px 3px 20px black;
+  box-shadow: var(--shadow);
   position: relative;
   height: fit-content;
-  overflow-x: visible;
-  overflow-y: visible;
+  overflow-x: hidden;
 }
 
 main.cleared {
-  height: 40vh;
+  height: 50vh;
 }
 
 main .overlay-div {
@@ -154,14 +153,35 @@ main .bottom-bar {
   background-color: var(--lightWhite);
 }
 
-main .bottom-bar .middle {
+.bottom-bar .filters {
   display: flex;
   justify-content: center;
   gap: 10px;
 }
 
-main .bottom-bar .middle #all {
+.filters.small-screen {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding: 15px;
+  align-self: center;
+  gap: 20px;
+  background-color: var(--lightWhite);
+  box-shadow: var(--shadow);
+  border-radius: 5px;
+}
+
+body.dark .filters.small-screen {
+  background-color: var(--lightDark);
+}
+
+.filters #all {
   color: rgb(98, 98, 255);
+}
+
+.drag-para {
+  align-self: center;
+  margin-top: 10px;
 }
 
 /* general */
@@ -193,7 +213,7 @@ main .bottom-bar .middle #all {
   width: 25px;
   height: 25px;
   border: var(--lightDark) 1px solid;
-  border-radius: 50%;
+  border-radius: 20px;
   text-decoration: none;
   display: flex;
   justify-content: center;
@@ -229,12 +249,12 @@ body.dark .check-radio {
   opacity: 1;
 }
 
-body .middle p:hover,
+body .filters p:hover,
 body .clear-all:hover {
   color: black;
 }
 
-body.dark .middle p:hover,
+body.dark .filters p:hover,
 body.dark .clear-all:hover {
   color: white;
 }
@@ -251,5 +271,33 @@ body.dark .bottom-bar {
 
   to {
     transform: translateX(500px);
+  }
+}
+
+@media (max-width: 500px) {
+  .container {
+    width: 85vw;
+  }
+
+  i {
+    font-size: 1rem !important;
+  }
+
+  #create-new-task {
+    height: fit-content;
+    border-radius: 5px;
+    height: 60px;
+    padding: 10px;
+  }
+
+  .check-radio {
+    width: 15px;
+    height: 15px;
+    min-width: 15px;
+  }
+
+  .task {
+    gap: 10px;
+    padding: 15px 10px;
   }
 }

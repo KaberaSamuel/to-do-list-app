@@ -70,6 +70,23 @@ function deleteElement(input, string = "event") {
   });
 }
 
+function makeResponsive() {
+  const filtersDiv = document.querySelector(".filters");
+  const dragPara = document.querySelector(".drag-para");
+  const container = document.querySelector(".container");
+  const bottomDiv = document.querySelector(".bottom-bar");
+
+  if (window.innerWidth < 800) {
+    container.insertBefore(filtersDiv, dragPara);
+    filtersDiv.classList.add("small-screen");
+  } else {
+    bottomDiv.insertBefore(filtersDiv, clearAllButton);
+    filtersDiv.classList.remove("small-screen");
+  }
+}
+
+makeResponsive();
+
 const toggleDisplayMode = (function () {
   const toggleModebtn = document.querySelector("#toggle-mode");
   const sunIconHtml = `<i class="fa-solid fa-sun"></i>`;
@@ -183,7 +200,7 @@ clearAllButton.addEventListener("click", () => {
   });
 });
 
+window.addEventListener("resize", makeResponsive);
+
 // sort object for dragging to reorder the list
 new Sortable(document.querySelector(".tasks"));
-
-export { tasks };

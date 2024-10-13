@@ -14,33 +14,32 @@
       referrerpolicy="no-referrer"
     />
 
-    <script src="main.js" type="module"></script>
+    <script src="main.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
   </head>
   <body class="dark">
-    <div class="top container">
+    <div class="top"></div>
+
+    <div class="container">
       <div class="header">
         <p>TODO</p>
         <span id="toggle-mode"><i class="fa-solid fa-sun"></i></span>
       </div>
 
-      <div class="active task" id="create-new-task">
-        <p class="check-radio"></p>
+      <div class="task" id="create-new-task">
         <input type="text" placeholder="Create a new todo..." />
         <i class="fa-solid fa-plus"></i>
       </div>
-    </div>
 
-    <div class="bottom container">
       <main class="cleared">
         <div class="tasks"></div>
 
         <div class="overlay-div">No todo items Left</div>
 
         <div class="bottom-bar">
-          <p class="active-tasks">3 items left</p>
+          <p class="active-tasks">0 items left</p>
 
-          <div class="middle">
+          <div class="filters">
             <p id="all">All</p>
             <p id="active">Active</p>
             <p id="completed">Completed</p>
