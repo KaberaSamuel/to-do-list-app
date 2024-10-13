@@ -2,6 +2,7 @@ const body = document.querySelector("body");
 const main = document.querySelector("main");
 const tasks = document.querySelector(".tasks");
 const clearAllButton = document.querySelector(".clear-all");
+const filtersElement = document.querySelector(".filters");
 
 const tasksTracker = {
   all: [],
@@ -63,6 +64,7 @@ function deleteElement(input, string = "event") {
     // updating UI after deletion
     if (tasks.childElementCount === 0) {
       main.classList.add("cleared");
+      filtersElement.style.display = "none";
     }
 
     tasksTracker.update();
@@ -71,17 +73,16 @@ function deleteElement(input, string = "event") {
 }
 
 function makeResponsive() {
-  const filtersDiv = document.querySelector(".filters");
   const dragPara = document.querySelector(".drag-para");
   const container = document.querySelector(".container");
   const bottomDiv = document.querySelector(".bottom-bar");
 
   if (window.innerWidth < 800) {
-    container.insertBefore(filtersDiv, dragPara);
-    filtersDiv.classList.add("small-screen");
+    container.insertBefore(filtersElement, dragPara);
+    filtersElement.classList.add("small-screen");
   } else {
-    bottomDiv.insertBefore(filtersDiv, clearAllButton);
-    filtersDiv.classList.remove("small-screen");
+    bottomDiv.insertBefore(filtersElement, clearAllButton);
+    filtersElement.classList.remove("small-screen");
   }
 }
 
@@ -108,6 +109,7 @@ const newTasks = (function () {
   function createTask(content) {
     if (main.classList.contains("cleared")) {
       main.classList.remove("cleared");
+      filtersElement.style.display = "flex";
     }
 
     const taskPara = document.createElement("div");
