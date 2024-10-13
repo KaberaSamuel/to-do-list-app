@@ -110,9 +110,7 @@ const newTasks = (function () {
     taskPara.appendChild(radioPara);
     taskPara.appendChild(contentPara);
     taskPara.appendChild(closePara);
-
     tasks.appendChild(taskPara);
-    main.classList.remove("cleared");
 
     // adding event listeners on new created element
     taskPara.addEventListener("click", checkTask);
@@ -124,6 +122,7 @@ const newTasks = (function () {
   }
 
   function callCreateFunction() {
+    if (input.value === "") return;
     createTask(input.value);
     input.value = "";
   }
@@ -176,10 +175,6 @@ const sortTasks = (function () {
   });
 })();
 
-const draggingBehavior = (function () {
-  // adding behavior of dragging to reorder the list
-})();
-
 // global event listeners
 clearAllButton.addEventListener("click", () => {
   const completedTasks = Array.from(document.querySelectorAll(".task.done"));
@@ -187,3 +182,8 @@ clearAllButton.addEventListener("click", () => {
     deleteElement(task, "task");
   });
 });
+
+// sort object for dragging to reorder the list
+new Sortable(document.querySelector(".tasks"));
+
+export { tasks };
