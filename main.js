@@ -1,6 +1,7 @@
 const body = document.querySelector("body");
 const main = document.querySelector("main");
 const tasks = document.querySelector(".tasks");
+const clearAllButton = document.querySelector(".clear-all");
 
 const tasksTracker = {
   all: [],
@@ -19,46 +20,6 @@ const tasksTracker = {
   },
 };
 
-function mainStartingState() {
-  main.classList.add("cleared");
-}
-
-function deletetasks() {
-  // Actual deletion of an element
-  function deleteElement(element) {
-    element.style.cssText = "animation: delete-animation 0.3s ease-in both";
-    element.addEventListener("animationend", () => {
-      if (tasks.contains(element)) {
-        tasks.removeChild(element);
-      }
-
-      // updating UI after deletion
-      if (tasks.childElementCount === 0) {
-        mainStartingState();
-      }
-
-      tasksTracker.update();
-      showRemainingTasks();
-    });
-  }
-
-  // listening for a click on delete elements to invoke deleting function
-  const deleteIcons = Array.from(document.querySelectorAll(".close"));
-  deleteIcons.forEach(function (icon) {
-    icon.addEventListener("click", (event) => {
-      deleteElement(event.target.parentNode.parentNode);
-    });
-  });
-
-  const clearAll = document.querySelector(".clear-all");
-  clearAll.addEventListener("click", () => {
-    const completedTasks = Array.from(document.querySelectorAll(".task.done"));
-    completedTasks.forEach((task) => {
-      deleteElement(task);
-    });
-  });
-}
-
 function hideElements(array) {
   array.forEach((element) => {
     element.style.display = "none";
@@ -75,6 +36,109 @@ function showRemainingTasks() {
   const leftItemsButton = document.querySelector(".active-tasks");
   leftItemsButton.textContent = `${tasksTracker.activeNumber} items left`;
 }
+
+function checkTask(event) {
+  const iconContent = `<i class="fa-solid fa-check"></i>`;
+  const parent = event.currentTarget;
+  const radioParent = parent.querySelector(".check-radio");
+  parent.classList.toggle("done");
+  radioParent.innerHTML = parent.classList.contains("done") ? iconContent : "";
+
+  // update UI
+  tasksTracker.update();
+  showRemainingTasks();
+}
+
+function deleteElement(input, string = "event") {
+  // this function can be called from clearALL or from close icon so we have to choose depending on input
+  const task = string === "event" ? input.target.parentNode.parentNode : input;
+
+  task.style.cssText = "animation: delete-animation 0.3s ease-in both";
+
+  task.addEventListener("animationend", () => {
+    if (tasks.contains(task)) {
+      tasks.removeChild(task);
+    }
+
+    // updating UI after deletion
+    if (tasks.childElementCount === 0) {
+      main.classList.add("cleared");
+    }
+
+    tasksTracker.update();
+    showRemainingTasks();
+  });
+}
+
+const toggleDisplayMode = (function () {
+  const toggleModebtn = document.querySelector("#toggle-mode");
+  const sunIconHtml = `<i class="fa-solid fa-sun"></i>`;
+  const moonIconHtml = `<i class="fa-solid fa-moon"></i>`;
+
+  toggleModebtn.addEventListener("click", () => {
+    if (body.classList.contains("dark")) {
+      toggleModebtn.innerHTML = moonIconHtml;
+    } else {
+      toggleModebtn.innerHTML = sunIconHtml;
+    }
+
+    body.classList.toggle("dark");
+  });
+})();
+
+const newTasks = (function () {
+  // actual creation of an element
+  function createTask(content) {
+    if (main.classList.contains("cleared")) {
+      main.classList.remove("cleared");
+    }
+
+    const taskPara = document.createElement("div");
+    taskPara.classList.add("task");
+
+    const radioPara = document.createElement("p");
+    radioPara.classList.add("check-radio");
+
+    const contentPara = document.createElement("p");
+    contentPara.classList.add("task-content");
+    contentPara.textContent = content;
+
+    const closePara = document.createElement("p");
+    closePara.classList.add("close");
+    closePara.innerHTML = `<i class="fa-solid fa-xmark">`;
+
+    taskPara.appendChild(radioPara);
+    taskPara.appendChild(contentPara);
+    taskPara.appendChild(closePara);
+
+    tasks.appendChild(taskPara);
+    main.classList.remove("cleared");
+
+    // adding event listeners on new created element
+    taskPara.addEventListener("click", checkTask);
+    closePara.addEventListener("click", deleteElement);
+
+    // updating UI variables after creation of an element
+    tasksTracker.update();
+    showRemainingTasks();
+  }
+
+  function callCreateFunction() {
+    createTask(input.value);
+    input.value = "";
+  }
+
+  // listening for clicks to create an element
+  const input = document.querySelector("input");
+  input.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+      callCreateFunction();
+    }
+  });
+
+  const addIcon = document.querySelector(".fa-plus");
+  addIcon.addEventListener("click", callCreateFunction);
+})();
 
 const sortTasks = (function () {
   const remainingTasks = document.querySelector(".active-tasks");
@@ -112,106 +176,14 @@ const sortTasks = (function () {
   });
 })();
 
-const toggleDisplyMode = (function () {
-  const toggleModebtn = document.querySelector("#toggle-mode");
-  const sunIconHtml = `<i class="fa-solid fa-sun"></i>`;
-  const moonIconHtml = `<i class="fa-solid fa-moon"></i>`;
+const draggingBehavior = (function () {
+  // adding behavior of dragging to reorder the list
+})();
 
-  toggleModebtn.addEventListener("click", () => {
-    if (body.classList.contains("dark")) {
-      toggleModebtn.innerHTML = moonIconHtml;
-    } else {
-      toggleModebtn.innerHTML = sunIconHtml;
-    }
-
-    body.classList.toggle("dark");
+// global event listeners
+clearAllButton.addEventListener("click", () => {
+  const completedTasks = Array.from(document.querySelectorAll(".task.done"));
+  completedTasks.forEach((task) => {
+    deleteElement(task, "task");
   });
-})();
-
-const toggleTaskState = (function () {
-  const updateTasksState = function () {
-    const checkRadios = Array.from(document.querySelectorAll(".check-radio"));
-    const iconContent = `<i class="fa-solid fa-check"></i>`;
-
-    // handler for adding and removing tick icon when radio check is clicked
-    const eventHandler = function (event) {
-      const parent = event.target.parentNode;
-      parent.classList.toggle("done");
-      event.currentTarget.innerHTML = parent.classList.contains("done")
-        ? iconContent
-        : "";
-
-      // updating some UI variables
-      tasksTracker.update();
-      showRemainingTasks();
-    };
-
-    checkRadios.forEach(function (element) {
-      if (!element.hasEventListener) {
-        element.addEventListener("click", eventHandler);
-        element.hasEventListener = true;
-      }
-    });
-  };
-
-  return {
-    updateTasksState,
-  };
-})();
-
-const newTasks = (function () {
-  // actual creation of an element
-  function createTask(content) {
-    if (main.classList.contains("cleared")) {
-      main.classList.remove("cleared");
-    }
-
-    const taskPara = document.createElement("div");
-    taskPara.classList.add("task");
-
-    const radioPara = document.createElement("p");
-    radioPara.classList.add("check-radio");
-
-    const contentPara = document.createElement("p");
-    contentPara.classList.add("task-content");
-    contentPara.textContent = content;
-
-    const closePara = document.createElement("p");
-    closePara.classList.add("close");
-    closePara.innerHTML = `<i class="fa-solid fa-xmark">`;
-
-    taskPara.appendChild(radioPara);
-    taskPara.appendChild(contentPara);
-    taskPara.appendChild(closePara);
-
-    tasks.appendChild(taskPara);
-    main.classList.remove("cleared");
-
-    // updating UI variables after creation of an element
-    toggleTaskState.updateTasksState();
-    deletetasks();
-    tasksTracker.update();
-    showRemainingTasks();
-  }
-
-  function callCreateFunction() {
-    createTask(input.value);
-    input.value = "";
-  }
-
-  // listening for clicks to create an element
-  const input = document.querySelector("input");
-  input.addEventListener("keyup", (event) => {
-    if (event.key === "Enter") {
-      callCreateFunction();
-    }
-  });
-
-  const addIcon = document.querySelector(".fa-plus");
-  addIcon.addEventListener("click", callCreateFunction);
-})();
-
-toggleTaskState.updateTasksState();
-deletetasks();
-tasksTracker.update();
-showRemainingTasks();
+});
