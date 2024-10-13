@@ -107,7 +107,7 @@ body.dark #create-new-task input {
   font-size: 1.2rem;
   color: black;
   text-align: right;
-  gap: 100px;
+  padding: 5px;
 }
 
 body.dark #create-new-task i {
